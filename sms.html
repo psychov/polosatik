@@ -1,5 +1,13 @@
 <head>
+<title>Генерация текста SMS для получения коронапропуска (Москва/МО)</title>
 <script type="text/javascript">
+function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+}
 function form_pass(){ 
    var pt = 0;
    var it = 0;
@@ -25,9 +33,6 @@ function form_pass(){
 
    var smsfulltext = "";
 
-   console.log ("jn  = ",jn, "; ji = ",ji);
-
-
    switch (pt) {
     case 1: document.getElementById('job_inn').disabled = false;
             document.getElementById('job_name').disabled = false;
@@ -38,7 +43,7 @@ function form_pass(){
 	    if (ji == "" || jn == "" || ps == "" || pn == ""){ 
               smsfulltext = "Недостаточно данных";
             } else {
-              smsfulltext = "ПРОПУСК*"+pt+"*"+it+"*"+ps+"*"+pn+"*"+vn+"*"+tn+"*"+sn+"*"+ji+"*"+jn;
+              smsfulltext = "Пропуск*"+pt+"*"+it+"*"+ps+"*"+pn+"*"+vn+"*"+tn+"*"+sn+"*"+ji+"*"+jn;
             }
             break;
     case 2: document.getElementById('job_inn').disabled = true;
@@ -50,7 +55,7 @@ function form_pass(){
 	    if (bd == "" || hs == "" || ps == "" || pn == ""){ 
               smsfulltext = "Недостаточно данных";
             } else {
-              smsfulltext = "ПРОПУСК*"+pt+"*"+it+"*"+ps+"*"+pn+"*"+bd+"*"+vn+"*"+tn+"*"+sn+"*"+hs;
+              smsfulltext = "Пропуск*"+pt+"*"+it+"*"+ps+"*"+pn+"*"+bd+"*"+vn+"*"+tn+"*"+sn+"*"+hs;
             }
             break;
     case 3: document.getElementById('job_inn').disabled = true;
@@ -62,24 +67,30 @@ function form_pass(){
 	    if (rs == "" || da == "" || ps == "" || pn == ""){ 
               smsfulltext = "Недостаточно данных";
             } else {
-              smsfulltext = "ПРОПУСК*"+pt+"*"+it+"*"+ps+"*"+pn+"*"+vn+"*"+tn+"*"+sn+"*"+rs+"*"+da;
+              smsfulltext = "Пропуск*"+pt+"*"+it+"*"+ps+"*"+pn+"*"+vn+"*"+tn+"*"+sn+"*"+rs+"*"+da;
             }
             break;
    }
-
-   
-
-//   console.log(smsfulltext);
 
    document.getElementById('smstext').textContent = smsfulltext;
 }
 </script>
 </head>
-
 <body onload="form_pass()"> 
-<table border=1>
 
-<tr><td colspan=3><p id="smstext"><font size+2 family=Courier color=red><font>Недостаточно данных</font></p></td></tr>
+<p align=center><a href="#" onclick="toggle_visibility('aq');">Информация о странице</a></p>
+<div id="aq" style="display:none">
+<p align = center><b>Это вообще что?</b>
+<br>На этой странице можно сформировать SMS и отправить его потом со своего телефона на номер 7377, чтобы<br>получить пропуск для передвижения по Москве и МО во время эпидемии коронавируса.</p>
+<p align = center><b>Так это можно без проблем сделать в приложении, разве нет?</b>
+<br>Можно. Эта страница - для тех у кого нет учётки на портале госуслуг, подтвержденного телефонного номера<br>в этой учётке, или, например, смартфона: для МО единственный способ получить пропуск, если у тебя телефон кнопочный<br>и в него нельзя сохранить графический QR-код - это SMS на _московский_ номер 7377.<br>SMS-номер 0250 для Московской области пока (на 16.04) не работает. Да, пропуск с номера 7377 годится для МО - я на горячей линии МО узнавал.</p>
+<p align = center><b>Я оставлю здесь свои паспортные данные, а потом на меня кредитов наоформят!</b>
+<br>Нет. Эта страница вообще никуда не отправляет данные. Можете ее сохранить в файл и использовать на компьютере, вообще не подключенном к Интернет.</p>
+<p align = center><b>А чего всё такое кривое-то???</b>
+<br>Я не умею в создание сайтов, html, css и прочее. Это я сделал на коленке по памяти на багаже знаний, устаревших лет на 15-20. Можете сделать лучше? Пришлите на egor@regedit.ru, я размещу.</p>
+</div>
+
+<table border=1 width=800 align=center>
 
 <tr><td>Тип пропуска
 <br><input name="pass_type" id="pass_type1" type="radio" value="1" checked onChange="form_pass()">Для работающих
@@ -122,7 +133,14 @@ function form_pass(){
 <td colspan=2>Адрес, куда направляетесь<br><font size="-1" color="gray">(например - Балашиха, ш. Энтузиастов, 60)</font>
 <br><input type="text" id="dest_address" size="50"></td></tr>
 
-<tr><td align=center colspan=3><input type=button value="Сгенерировать текст SMS-сообщения на номер 7377" onclick="form_pass()" size=50></td></tr>
+<tr><td align=center colspan=3><input type=button value=" Сгенерировать текст SMS-сообщения на номер 7377 " onclick="form_pass()" size=50></td></tr>
 
-<table>
+</table>
+<hr>
+<table border=1 align=center  width=800>
+<tr><td width=200>Текст SMS, которое следует отправить на 7377,<br>чтоб получить пропуск:</td><td><p id="smstext"><font size+2 family=Courier color=red><font>Недостаточно данных</font></p></td></tr>
+<tr><td align=center valign=center colspan=2><br><b>Политика обработки данных: все данные остаются на вашем компьютере и никуда не пересылаются. Сервер не принимает и не хранит ничего из того, что вы здесь вводите. Не использует куки и счетчики.</b></td></tr>
+</table>
+
 </body>
+</head>
