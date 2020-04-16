@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+<head>
+<script type="text/javascript">
+function form_pass(){ 
+   var pt = 0;
+   var it = 0;
+   var ps = document.getElementById("passport_ser").value;
+   var pn = document.getElementById("passport_num").value;
+   var vn = document.getElementById("vehicle_reg_num").value;
+   var tn = document.getElementById("troyka_num").value;
+   var sn = document.getElementById("strelka_num").value;
+   var ji = document.getElementById("job_inn").value;
+   var jn = document.getElementById("job_name").value;
+   var bd = document.getElementById("birthday").value;
+   var hs = document.getElementById("hospital").value;
+   var rs = document.getElementById("reason").value;
+   var da = document.getElementById("dest_address").value;
+
+   if (document.getElementById("pass_type1").checked == true){pt = 1}
+   if (document.getElementById("pass_type2").checked == true){pt = 2}
+   if (document.getElementById("pass_type3").checked == true){pt = 3}
+
+   if (document.getElementById("passport_type_1").checked == true){it = 1}
+   if (document.getElementById("passport_type_2").checked == true){it = 2}
+   if (document.getElementById("passport_type_3").checked == true){it = 3}
+
+   var smsfulltext = "";
+
+   console.log ("jn  = ",jn, "; ji = ",ji);
+
+
+   switch (pt) {
+    case 1: document.getElementById('job_inn').disabled = false;
+            document.getElementById('job_name').disabled = false;
+	    document.getElementById('birthday').disabled = true;
+	    document.getElementById('hospital').disabled = true;
+	    document.getElementById('reason').disabled = true;
+	    document.getElementById('dest_address').disabled = true;
+	    if (ji == "" || jn == "" || ps == "" || pn == ""){ 
+              smsfulltext = "Недостаточно данных";
+            } else {
+              smsfulltext = "Пропуск*"+pt+"*"+it+"*"+ps+"*"+pn+"*"+vn+"*"+tn+"*"+sn+"*"+ji+"*"+jn;
+            }
+            break;
+    case 2: document.getElementById('job_inn').disabled = true;
+            document.getElementById('job_name').disabled = true;
+	    document.getElementById('birthday').disabled = false;
+	    document.getElementById('hospital').disabled = false;
+	    document.getElementById('reason').disabled = true;
+	    document.getElementById('dest_address').disabled = true;
+	    if (bd == "" || hs == "" || ps == "" || pn == ""){ 
+              smsfulltext = "Недостаточно данных";
+            } else {
+              smsfulltext = "Пропуск*"+pt+"*"+it+"*"+ps+"*"+pn+"*"+bd+"*"+vn+"*"+tn+"*"+sn+"*"+hs;
+            }
+            break;
+    case 3: document.getElementById('job_inn').disabled = true;
+            document.getElementById('job_name').disabled = true;
+	    document.getElementById('birthday').disabled = true;
+	    document.getElementById('hospital').disabled = true;
+	    document.getElementById('reason').disabled = false;
+	    document.getElementById('dest_address').disabled = false;
+	    if (rs == "" || da == "" || ps == "" || pn == ""){ 
+              smsfulltext = "Недостаточно данных";
+            } else {
+              smsfulltext = "Пропуск*"+pt+"*"+it+"*"+ps+"*"+pn+"*"+vn+"*"+tn+"*"+sn+"*"+rs+"*"+da;
+            }
+            break;
+   }
+
+   
+
+//   console.log(smsfulltext);
+
+   document.getElementById('smstext').textContent = smsfulltext;
+}
+</script>
+</head>
+
+<body onload="form_pass()"> 
+<table border=1>
+
+<tr><td colspan=3><p id="smstext"><font size+2 family=Courier color=red><font>Недостаточно данных</font></p></td></tr>
+
+<tr><td>Тип пропуска
+<br><input name="pass_type" id="pass_type1" type="radio" value="1" checked onChange="form_pass()">Для работающих
+<br><input name="pass_type" id="pass_type2" type="radio" value="2" onChange="form_pass()">Для разового посещения медицинской организации
+<br><input name="pass_type" id="pass_type3" type="radio" value="3" onChange="form_pass()">Для иных целей</td>
+
+<td>Тип документа удостоверяющего личность
+<br><input name="passport_type" id="passport_type_1" type="radio" value="1" checked>Паспорт РФ
+<br><input name="passport_type" id="passport_type_2" type="radio" value="2">Паспорт не РФ
+<br><input name="passport_type" id="passport_type_3" type="radio" value="3">Иной документ
+</td>
+
+<td>Данные документа, удостоверяющего личность
+<br>Серия <input type="text" id="passport_ser" size="4">, номер <input type="text" id="passport_num" size="6"></td></tr>
+
+<tr><td>Госномер автомобиля<br><font size="-1" color="gray">(оставьте пустым, если не используется. буквы вводите русским алфавитом.)</font>
+<br><input type="text" id="vehicle_reg_num" size="9"></td>
+
+<td>Номер карты "Тройка" без пробелов<br><font size="-1" color="gray">(оставьте пустым, если не используется)</font>
+<br><input type="text" id="troyka_num" size="10"></td>
+
+<td>Номер карты "Стрелка" без пробелов<br><font size="-1" color="gray">(оставьте пустым, если не используется)</font>
+<br><input type="text" id="strelka_num" size="11"></td></tr>
+
+<tr><td>ИНН организации - вашей работы<br><font size="-1" color="gray">(можно не заполнять, если работаете в медицинской организации)</font>
+<br><input type="text" id="job_inn" size="15"></td>
+
+<td colspan=2>Наименование организации - вашей работы<br><font size="-1" color="gray">(например, ООО "Ромашка")</font>
+<br><input type="text" id="job_name" size="70"></td></tr>
+
+<tr><td>Дата рождения<br><font size="-1" color="gray">(в формате ДД.ММ.ГГГГ, через точки, например 31.01.1970)</font>
+<br><input type="text" id="birthday" size="15"></td>
+
+<td colspan=2>Наименование медицинской организации<br><font size="-1" color="gray">(можно в краткой форме, например: ГКБ-15)</font>
+<br><input type="text" id="hospital" size="50"></td></tr>
+
+<tr><td>Цель выхода<br><font size="-1" color="gray">(например - "за продуктами" или "на дачу" (без кавычек)</font>
+<br><input type="text" id="reason" size="20"></td>
+
+<td colspan=2>Адрес, куда направляетесь<br><font size="-1" color="gray">(например - Балашиха, ш. Энтузиастов, 60)</font>
+<br><input type="text" id="dest_address" size="50"></td></tr>
+
+<tr><td align=center colspan=3><input type=button value="Сгенерировать текст SMS-сообщения на номер 7377" onclick="form_pass()" size=50></td></tr>
+
+<table>
+</body>
+
+</html>
